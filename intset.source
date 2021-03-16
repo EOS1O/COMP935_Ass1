@@ -1,0 +1,74 @@
+CREATE FUNCTION intset_in(cstring)
+   RETURNS intSet
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+
+
+CREATE FUNCTION intset_out(intSet)
+   RETURNS cstring
+   AS '_OBJWD_/intset'
+   LANGUAGE C IMMUTABLE STRICT;
+
+
+CREATE TYPE intSet (
+   internallength = variable,
+   input = intset_in,
+   output = intset_out
+);
+
+
+
+
+
+CREATE FUNCTION intset_include(integer, intSet) RETURNS bool
+   AS '_OBJWD_/intset' LANGUAGE C IMMUTABLE STRICT;
+
+
+CREATE OPERATOR ? (
+   leftarg = integer, rightarg = intSet, procedure = intset_include
+);
+
+
+
+CREATE FUNCTION intset_leftInclude(intSet, intSet) RETURNS bool
+   AS '_OBJWD_/intset' LANGUAGE C IMMUTABLE STRICT;
+
+
+CREATE OPERATOR = (
+   leftarg = intSet, rightarg = intSet, procedure = intset_leftInclude
+);
+
+
+
+
+CREATE FUNCTION intset_eq(intSet, intSet) RETURNS bool
+   AS '_OBJWD_/intset' LANGUAGE C IMMUTABLE STRICT;
+
+
+CREATE OPERATOR = (
+   leftarg = intSet, rightarg = intSet, procedure = intset_eq
+);
+
+
+
+
+CREATE FUNCTION intset_cardinality(intSet) RETURNS integer
+   AS '_OBJWD_/intset' LANGUAGE C IMMUTABLE STRICT;
+
+
+CREATE OPERATOR # (
+   rightarg = intSet, procedure = intset_cardinality
+);
+
+
+
+
+
+CREATE FUNCTION intset_difference(intSet, intSet) RETURNS intSet
+   AS '_OBJWD_/intset' LANGUAGE C IMMUTABLE STRICT;
+
+
+CREATE OPERATOR - (
+   leftarg = intSet, rightarg = intSet, procedure = intset_difference
+);
+
